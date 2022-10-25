@@ -15,65 +15,65 @@
 
     $pdo->exec($sql);
 
-    // //3. PROCESSANDO CORPO DA REQUISIÇÃO POR POST
-    // $body = file_get_contents('php://input'); //capturar do json da requisição
+    //3. PROCESSANDO CORPO DA REQUISIÇÃO POR POST
+    $body = file_get_contents('php://input'); //capturar do json da requisição
 
-    // $body = json_decode($body);
+    $body = json_decode($body);
     
-    // switch($_SERVER['REQUEST_METHOD']){
-    //     case "POST":
-    //         requestPost($body, $pdo);
-    //         break;
+    switch($_SERVER['REQUEST_METHOD']){
+        case "POST":
+            requestPost($body, $pdo);
+            break;
         
-    //     case "GET":
-    //         requestGet($pdo);
-    //         break;
+        // case "GET":
+        //     requestGet($pdo);
+        //     break;
                     
-    //     case "PUT":
-    //         requestPut($body, $pdo);
-    //         break;
+        // case "PUT":
+        //     requestPut($body, $pdo);
+        //     break;
         
-    //     case "DELETE":
-    //         requestDelete($body, $pdo);
-    //         break;
+        // case "DELETE":
+        //     requestDelete($body, $pdo);
+        //     break;
 
     
-    //     default:
-    //         resposta(400, false, 'Metodo Invalido.', '');
+        default:
+            resposta(400, false, 'Metodo Invalido.', '');
                     
-    // }
+    }
 
-    // //=======================
-    // //FUNCOES CRUD
-    // function requestPost($body, $pdo){
+    //=======================
+    //FUNCOES CRUD
+    function requestPost($body, $pdo){
 
-    //     if($body->id_livro === ''){
+        //if($body->id_livro === ''){
 
-    //         //CREATE
-    //         //4. INSERINDO DADOS ANTI SQL INJECTION
-    //         $sql = $pdo->prepare("INSERT INTO tb_livros VALUES (null,?,?,?)");
+            //CREATE
+            //4. INSERINDO DADOS ANTI SQL INJECTION
+            $sql = $pdo->prepare("INSERT INTO tb_livros VALUES (null,?,?,?)");
 
-    //         $sql->execute(array(
-    //             $body->nome,
-    //             $body->preco,
-    //             $body->path_img
-    //         ));
+            $sql->execute(array(
+                $body->nome_livro,
+                $body->preco_livro,
+                $body->meu_arquivo
+            ));
             
-    //         resposta(200, true, "Cliente cadastrado com sucesso!", '');
+            resposta(200, true, "Livro cadastrado com sucesso!", '');
         
-    //     } else {
+        // } else {
             
-    //         //OBTENDO OS REGISTROS DE 1 ÚNICO CLIENTE POR ID
-    //         //READ
-    //         $sql = $pdo->prepare("SELECT * FROM tb_livros WHERE id_livro = ?");
-    //         $sql->execute([$body->id_livro]);
-    //         $dados = $sql->fetch(PDO::FETCH_OBJ);
+        //     //OBTENDO OS REGISTROS DE 1 ÚNICO CLIENTE POR ID
+        //     //READ
+        //     $sql = $pdo->prepare("SELECT * FROM tb_livros WHERE id_livro = ?");
+        //     $sql->execute([$body->id_livro]);
+        //     $dados = $sql->fetch(PDO::FETCH_OBJ);
 
-    //         resposta(200, true, "Registro de 1 único cliente lido com sucesso!", $dados);
+        //     resposta(200, true, "Registro de 1 único cliente lido com sucesso!", $dados);
                         
-    //     }
+        // }
 
-    // }
+    }
 
     // function requestGet($pdo){
 
