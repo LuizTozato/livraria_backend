@@ -12,17 +12,21 @@
     $fileSize = $_FILES['meu_arquivo']['size'];
     $fileTmpName  = $_FILES['meu_arquivo']['tmp_name'];
     $fileType = $_FILES['meu_arquivo']['type'];
+
     $explodedString = explode('.',$fileNameFull);
     $fileName = strtolower(current($explodedString));
     $fileExtension = strtolower(end($explodedString));
 
-    $uploadPath = $currentDirectory . $uploadDirectory . uniqid() . "." . $fileExtension; 
+    $pseudoName = uniqid() . "." . $fileExtension;
+    $GLOBALS["pseudoName"] = $pseudoName;
+    $uploadPath = $currentDirectory . $uploadDirectory . $pseudoName; 
 
     //Se deu certo, retorna true. Senão, retorna false.
     $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
 
     if($didUpload){
         echo("Concluido upload");
+        require_once('crud.php');
     } else {
         echo("Upload deu problema...");
     }
