@@ -10,21 +10,15 @@
 
     $pdo->exec($sql);
 
-    //3. PROCESSANDO CORPO DA REQUISIÇÃO POR POST
-    
-    $json = file_get_contents('php://input'); //capturar do json da requisição
-
-    $body = json_decode($json);
-
-   
+    //ROTA DE REQUISIÇÕES
     switch($_SERVER['REQUEST_METHOD']){
         case "POST":
-            requestPost($body, $pdo);
+            requestPost($pdo);
             break;
         
-        // case "GET":
-        //     requestGet($pdo);
-        //     break;
+        case "GET":
+            requestGet($pdo);
+            break;
                     
         // case "PUT":
         //     requestPut($body, $pdo);
@@ -42,9 +36,11 @@
 
     //=======================
     //FUNCOES CRUD
-    function requestPost($body, $pdo){
+    function requestPost($pdo){
 
         //if($body->id_livro === ''){
+
+            require_once("moverUpload.php");
 
             $nome_livro = $_POST["nome_livro"];
             $preco_livro = $_POST["preco_livro"];
@@ -76,48 +72,16 @@
 
     }
 
-    // function requestGet($pdo){
+    function requestGet($pdo){
 
-    //     $busca = $_GET['busca'];
-    //     $limit = $_GET['limit'];
-    //     $offset = $_GET['offset'];
+        //READ
+        $sql = $pdo->prepare("SELECT * FROM tb_livros");
+        $sql->execute();
+        $livros = $sql->fetchAll(PDO::FETCH_OBJ);
 
-    //     if($busca !== ''){
+        resposta(200, true, "Registros dos clientes lidos com sucesso!", [$livros]);
 
-    //         //READ
-    //         $sql = $pdo->prepare("SELECT * FROM tb_clientes WHERE nome LIKE :nome OR email LIKE :email LIMIT :limit OFFSET :offset");
-    //         $sql->bindValue(":nome", "%$busca%", PDO::PARAM_STR);
-    //         $sql->bindValue(":email", "%$busca%", PDO::PARAM_STR);
-    //         $sql->bindValue(":limit", $limit, PDO::PARAM_INT);
-    //         $sql->bindValue(":offset", $offset, PDO::PARAM_INT);
-    //         $sql->execute();
-    //         $dados = $sql->fetchAll(PDO::FETCH_OBJ);
-
-    //         $sql = $pdo->prepare("SELECT COUNT(id_cliente) AS total FROM tb_clientes WHERE nome LIKE :nome OR email LIKE :email");
-    //         $sql->bindValue(":nome", "%$busca%", PDO::PARAM_STR);
-    //         $sql->bindValue(":email", "%$busca%", PDO::PARAM_STR);
-    //         $sql->execute();
-    //         $total = $sql->fetch(PDO::FETCH_OBJ);
-    
-    //         resposta(200, true, "Registros dos clientes lidos com sucesso!", [$dados,$total]);
-
-    //     } else {
-
-    //         //READ
-    //         $sql = $pdo->prepare("SELECT * FROM tb_clientes LIMIT :limit OFFSET :offset");
-    //         $sql->bindValue('limit', $limit, PDO::PARAM_INT);
-    //         $sql->bindValue('offset', $offset, PDO::PARAM_INT);
-    //         $sql->execute();
-    //         $dados = $sql->fetchAll(PDO::FETCH_OBJ);
-
-    //         $sql = $pdo->prepare("SELECT COUNT(id_cliente) AS total FROM tb_clientes");
-    //         $sql->execute();
-    //         $total = $sql->fetch(PDO::FETCH_OBJ);
-    
-    //         resposta(200, true, "Registros dos clientes lidos com sucesso!", [$dados,$total]);
-
-    //     }
-    // }
+    }
 
     // function requestPut($body, $pdo){
 

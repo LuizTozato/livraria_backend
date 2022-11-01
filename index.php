@@ -2,6 +2,6 @@
 
     // //1. ACESSANDO BANCO DE DADOS ===========================
     require_once('db/conexao.php');
-    require_once('moverUpload.php');
+    require_once('crud.php');
     
 ?>

@@ -26,7 +26,6 @@
 
     if($didUpload){
         echo("Concluido upload");
-        require_once('crud.php');
     } else {
         echo("Upload deu problema...");
     }
